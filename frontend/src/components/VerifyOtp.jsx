@@ -24,11 +24,13 @@ const VerifyOtp = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:3000/users/verifyOtp', { email, otp });
+            const response = await axios.post('https://letsconnect-6jnn.onrender.com/users/verifyOtp', { email, otp });
             if(response.data){
                 setSuccess('OTP verified successfully!');
                 console.log("response : " , response)
                 setError('');
+                localStorage.setItem("accessToken" , response?.data?.data?.accessToken);
+                localStorage.setItem("refreshToken" , response?.data?.data?.refreshToken);
                 toast.success('OTP verified successfully!');
                 console.log('OTP verification successful:', response.data);
                 navigate('/dashboard');

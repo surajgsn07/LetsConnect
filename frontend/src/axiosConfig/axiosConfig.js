@@ -7,7 +7,7 @@ const accessToken = localStorage.getItem('accessToken');
 
 // Create an instance of axios
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://letsconnect-6jnn.onrender.com',
 });
 
 console.log({accessToken})
