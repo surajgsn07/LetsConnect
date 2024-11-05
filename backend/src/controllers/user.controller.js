@@ -82,13 +82,6 @@ const verifyOtp = asyncHandler(async (req, res) => {
     await user.save();
 
     delete tempUserStore[email];
-    
-    res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        maxAge: 3600 * 1000, // 1 hour in milliseconds
-        sameSite: 'none',
-        domain: 'http://localhost:5173',
-    });
 
     res.status(200).json(new ApiResponse(200, { user, accessToken , refreshToken }, "User registered successfully"));
 });
