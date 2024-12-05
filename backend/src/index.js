@@ -8,7 +8,7 @@ import { isConnection, sendMessage } from "./sockerUtilsfile.js";
 const server = http.createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://letsconnect-ui.netlify.app",
     methods: ["GET", "POST"],
     credentials: true,
   },
