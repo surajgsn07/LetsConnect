@@ -72,7 +72,7 @@ const Video = () => {
   }, [])
 
   useEffect(() => {
-    socket.on('reject-vc' , ({ senderId , targetId })=>{
+    socket?.on('reject-vc' , ({ senderId , targetId })=>{
       console.log(`rejected`)
       setuserToCall(null);
       setisCalling(false);
@@ -80,7 +80,7 @@ const Video = () => {
     })
 
 
-    socket.on("accept-vc" , ({roomId})=>{
+    socket?.on("accept-vc" , ({roomId})=>{
       navigate(`/vc/${roomId}`)
     })
   }, [socket])
