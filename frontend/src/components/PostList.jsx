@@ -34,7 +34,7 @@ const PostList = () => {
   }, [reloadS]);
 
   return (
-    <div className="w-full flex flex-col gap-7">
+    <div className="w-full min-h-screen flex flex-col gap-7">
       {isLoading ? (
         <div className="flex justify-center items-center h-40">
           <BiLoaderAlt className="text-4xl animate-spin text-gray-500" />

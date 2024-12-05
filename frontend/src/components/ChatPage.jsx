@@ -95,7 +95,7 @@ const ChatPage = () => {
   
 
   return (
-    <div className="flex flex-col h-full w-full p-4 backdrop-filter backdrop-blur-lg bg-opacity-30 bg-gray-900 rounded-lg">
+    <div className="flex flex-col min-h-screen h-full w-full p-4 backdrop-filter backdrop-blur-lg bg-opacity-30 bg-gray-900 rounded-lg">
       {/* Header with user info */}
       <div className="flex items-center p-4 bg-gray-800 bg-opacity-50 rounded-lg mb-4">
         <img

@@ -55,9 +55,9 @@ const Navbar = () => {
                         {status && (
                             <div className="flex items-center space-x-4">
                                 {/* Profile Picture */}
-                                <Link to="/profile">
+                                <Link to="/">
                                     <img
-                                        src={user.profilePicture} // Replace with actual profile picture URL
+                                        src={user?.profilePicture} // Replace with actual profile picture URL
                                         alt="Profile"
                                         className="w-8 h-8 rounded-full"
                                     />
