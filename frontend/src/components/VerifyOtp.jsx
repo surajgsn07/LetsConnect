@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { TailSpin } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../store/authSlice';
 
 const VerifyOtp = () => {
     
@@ -13,6 +14,8 @@ const VerifyOtp = () => {
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
 
     const email = useSelector((state) => state.email.email);
 
@@ -32,6 +35,8 @@ const VerifyOtp = () => {
                 localStorage.setItem("accessToken" , response?.data?.data?.accessToken);
                 localStorage.setItem("refreshToken" , response?.data?.data?.refreshToken);
                 toast.success('OTP verified successfully!');
+
+                dispatch(login({user:response.data.data.user}))
                 console.log('OTP verification successful:', response.data);
                 navigate('/dashboard');
             }

@@ -31,7 +31,7 @@ const LoginForm = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post('https://letsconnect-6jnn.onrender.comv/users/login', formData, {
+            const response = await axios.post('https://letsconnect-6jnn.onrender.com/users/login', formData, {
                 withCredentials: true  // Ensure credentials are sent with the request
             });
             console.log('Login successful:', response?.data);
@@ -120,7 +120,7 @@ const LoginForm = () => {
                 <p className="mt-4 text-center text-gray-400">Don't have an account? 
                     <span 
                         className="text-indigo-500 hover:underline cursor-pointer"
-                        onClick={() => navigate("/register")}
+                        onClick={() => navigate("/signup")}
                     >
                         Register
                     </span>

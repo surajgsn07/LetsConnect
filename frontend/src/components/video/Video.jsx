@@ -6,6 +6,7 @@ import axiosInstance from '../../axiosConfig/axiosConfig';
 import { useSocket } from '../../SocketWrapper';
 import { v4 as uuidv4 } from 'uuid'; // Import v4 version
 import { useNavigate } from 'react-router-dom';
+// import { FaSpinner } from 'react-icons/fa'; // Import the loader icon
 
 
 const demoConnections = [
@@ -37,6 +38,7 @@ const Video = () => {
   const [userToCall, setuserToCall] = useState(null);
   const [roomId, setroomId] = useState(null);
   const navigate = useNavigate();
+  const [loading, setloading] = useState(false)
   
 
   const socket = useSocket();
@@ -50,7 +52,9 @@ const Video = () => {
   
 
   const fetchConnections = async () => {
+    setloading(true);
     try {
+      
       const res = await axiosInstance.get(`/users/connections/${user._id}`);
       if (res.data) {
         console.log("res.data : ",res.data);
@@ -59,6 +63,7 @@ const Video = () => {
     } catch (error) {
       console.log("Error fetching connections:", error);
     }
+    setloading(false);
   };
 
   useEffect(() => {
@@ -111,6 +116,19 @@ const Video = () => {
             </button>
           </div>
         ))}
+
+        {!loading && connections.length === 0 && (
+          <p className="text-gray-600 text-center">No connections found.</p>
+        )}
+
+        {loading && (
+          <div className="flex items-center justify-center mt-4">
+            <FaSpinner className="animate-spin text-gray-300 mr-2" size={24} />
+            
+          </div>
+        )}
+
+
       </div>
       {isCalling && 
       <CallingModal user={userToCall} cancelCall={cancelCall} />}

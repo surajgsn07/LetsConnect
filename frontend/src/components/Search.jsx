@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../axiosConfig/axiosConfig'; // Adjust the import path based on your project structure
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-
+import { FaSpinner } from 'react-icons/fa'; // Import the loader icon
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -13,29 +13,23 @@ const Search = () => {
   const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
-    // Fetch current user's connections
     const fetchConnections = async () => {
       try {
-        const response = await axiosInstance.get(`/users/connections/${user._id}`); // Adjust endpoint if necessary
-
-        console.log({response})
+        const response = await axiosInstance.get(`/users/connections/${user?._id}`);
         if (response.data) {
-          console.log({first: response.data})
           setUserConnections(response.data);
         }
       } catch (error) {
         console.error('Error fetching user connections:', error);
       }
     };
-
     fetchConnections();
-  }, [user._id]);
+  }, [user?._id]);
 
   useEffect(() => {
-    // Fetch current user's sent requests
     const fetchSentRequests = async () => {
       try {
-        const response = await axiosInstance.get(`/users/sent-requests`); // Adjust endpoint if necessary
+        const response = await axiosInstance.get(`/users/sent-requests`);
         if (response.data) {
           setRequestedConnections(response.data.recipients);
         }
@@ -43,9 +37,8 @@ const Search = () => {
         console.error('Error fetching sent requests:', error);
       }
     };
-
     fetchSentRequests();
-  }, [user._id]);
+  }, [user?._id]);
 
   useEffect(() => {
     if (!query || query.length === 0) {
@@ -57,10 +50,9 @@ const Search = () => {
       try {
         const response = await axiosInstance.get(`/users/search`, { params: { q: query } });
         if (response.data) {
-          const filteredResults = response.data.data.filter((result) => 
-            result._id !== user._id && !userConnections.includes(result)
+          const filteredResults = response.data.data.filter((result) =>
+            result?._id !== user?._id && !userConnections.includes(result)
           );
-          console.log({filteredResults})
           setResults(filteredResults);
         }
       } catch (error) {
@@ -69,29 +61,19 @@ const Search = () => {
         setLoading(false);
       }
     };
-    
-    console.log({results})
-    console.log({userConnections})
 
     const debounceFetch = setTimeout(() => {
       fetchData();
-    }, 300); // Adjust debounce delay as needed
+    }, 300);
 
     return () => clearTimeout(debounceFetch);
-  }, [query, user._id , userConnections]);
+  }, [query, user?._id, userConnections]);
 
-  const isConnection = (userId) => {
-    return userConnections.some(connection => connection._id === userId);
-  };
-
-  const isRequested = (userId) => {
-    return requestedConnections.some(connection => connection._id === userId);
-  };
+  const isConnection = (userId) => userConnections.some(connection => connection?._id === userId);
+  const isRequested = (userId) => requestedConnections.some(connection => connection?._id === userId);
 
   const handleAddConnection = async (userId) => {
     try {
-      console.log("user id of anotehr:" , userId);
-      console.log("our user : " , user._id)
       const response = await axiosInstance.post(`/users/createRequest/${userId}`, { userId });
       if (response.data) {
         toast.success("Request made successfully");
@@ -106,10 +88,9 @@ const Search = () => {
   const handleRemoveConnection = async (userId) => {
     try {
       const response = await axiosInstance.delete(`/users/connections/${userId}`);
-      console.log({response})
       if (response.data.success) {
-        setUserConnections(userConnections.filter(connection => connection._id !== userId));
-        setRequestedConnections(requestedConnections.filter(requested => requested._id !== userId));
+        setUserConnections(userConnections.filter(connection => connection?._id !== userId));
+        setRequestedConnections(requestedConnections.filter(requested => requested?._id !== userId));
       }
     } catch (error) {
       console.error('Error removing connection:', error);
@@ -127,30 +108,32 @@ const Search = () => {
           className="w-full p-3 rounded-lg border border-gray-300 text-black"
         />
         {loading ? (
-          <div className="mt-4 text-center">Loading...</div>
+          <div className="mt-4 text-center">
+            <FaSpinner className="animate-spin text-3xl text-white mx-auto" /> {/* Rotating spinner */}
+          </div>
         ) : (
           <div className="mt-4">
             {results.length > 0 ? (
               results.map((resultUser) => (
-                <div key={resultUser._id} className="p-4 bg-gray-800 rounded-lg mb-2 flex items-center">
-                  <img src={resultUser.profilePicture} alt={resultUser.username} className="w-12 h-12 rounded-full" />
+                <div key={resultUser?._id} className="p-4 bg-gray-800 rounded-lg mb-2 flex items-center">
+                  <img src={resultUser?.profilePicture} alt={resultUser.username} className="w-12 h-12 rounded-full" />
                   <div className="ml-4">
                     <div className="text-lg font-semibold">{resultUser.username}</div>
                     <div className="text-sm text-gray-500">{resultUser.profession}</div>
-                    {isConnection(resultUser._id) ? (
+                    {isConnection(resultUser?._id) ? (
                       <button
                         onClick={() => handleRemoveConnection(resultUser._id)}
                         className="mt-2 px-4 py-2 bg-red-600 rounded-lg"
                       >
                         Remove Connection
                       </button>
-                    ) : isRequested(resultUser._id) ? (
+                    ) : isRequested(resultUser?._id) ? (
                       <div className="mt-2 px-4 py-2 bg-yellow-600 rounded-lg">
                         Requested
                       </div>
                     ) : (
                       <button
-                        onClick={() => handleAddConnection(resultUser._id)}
+                        onClick={() => handleAddConnection(resultUser?._id)}
                         className="mt-2 px-4 py-2 bg-green-600 rounded-lg"
                       >
                         Add Connection
