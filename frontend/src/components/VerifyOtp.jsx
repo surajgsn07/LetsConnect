@@ -32,6 +32,7 @@ const VerifyOtp = () => {
                 setSuccess('OTP verified successfully!');
                 console.log("response : " , response)
                 setError('');
+                console.log({ "res.data.data" :  response.data.data})
                 localStorage.setItem("accessToken" , response?.data?.data?.accessToken);
                 localStorage.setItem("refreshToken" , response?.data?.data?.refreshToken);
                 toast.success('OTP verified successfully!');
