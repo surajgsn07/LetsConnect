@@ -3,6 +3,7 @@ import axiosInstance from '../axiosConfig/axiosConfig'; // Adjust the import pat
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { FaSpinner } from 'react-icons/fa'; // Import the loader icon
+import { getCookie } from '../axiosConfig/cookieFunc';
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -12,6 +13,8 @@ const Search = () => {
   const [requestedConnections, setRequestedConnections] = useState([]);
   const user = useSelector(state => state.auth.user);
 
+  const token = getCookie("accessToken");
+  console.log({token})
   useEffect(() => {
     const fetchConnections = async () => {
       try {
