@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { TailSpin } from 'react-loader-spinner';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/authSlice';
+import { setCookie } from '../axiosConfig/cookieFunc';
 
 const LoginForm = () => {
     const [formData, setFormData] = useState({
@@ -39,6 +40,7 @@ const LoginForm = () => {
             localStorage.setItem("accessToken" , response?.data?.data?.accessToken);
             localStorage.setItem("refreshToken" , response?.data?.data?.refreshToken);
             dispatch(login({user:response.data.data.user}))
+            
             
             setCookie('accessToken', response?.data?.data?.accessToken, 7);
             setCookie('refreshToken', response?.data?.data?.refreshToken, 7);
