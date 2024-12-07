@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../axiosConfig/axiosConfig';
 import { useSelector } from 'react-redux';
+import Loader from './Loader';
 
 
 const renderLoader = () => (
@@ -184,7 +185,7 @@ const ProfilePage = () => {
   );
 
   if(isLoading){
-    return renderLoader();
+    return Loader();
   }
 
   return (
