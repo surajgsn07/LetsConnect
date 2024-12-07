@@ -1,6 +1,7 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import Cookie from "universal-cookie";
+import { getCookie } from './cookieFunc';
 
 const axiosInstance = axios.create({
   baseURL: 'https://letsconnect-6jnn.onrender.com', 
@@ -17,7 +18,8 @@ axiosRetry(axiosInstance, {
 
 axiosInstance.interceptors.request.use(config => {
   const cookie = new Cookie();
-  const token = cookie.get('authToken');
+  const token = getCookie("accessToken");
+  console.log("token in config : " , token)
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
