@@ -4,6 +4,14 @@ import { faCamera, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../axiosConfig/axiosConfig';
 import { useSelector } from 'react-redux';
 
+
+const renderLoader = () => (
+  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="w-12 h-12 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+  </div>
+);
+
+
 const ProfilePage = () => {
   const [profilePic, setProfilePic] = useState('');
   const [coverImage, setCoverImage] = useState('');
@@ -16,9 +24,11 @@ const ProfilePage = () => {
   const [field, setfield] = useState("")
   const [formData, setFormData] = useState({});
   const user = useSelector(state => state.auth.user);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
+      setisLoading(true);
       try {
         const res = await axiosInstance(`/users/getuserbyid/${user?._id}`);
         if (res && res.data) {
@@ -32,6 +42,8 @@ const ProfilePage = () => {
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
+      }finally{
+        setisLoading(false);
       }
     };
 
@@ -39,6 +51,7 @@ const ProfilePage = () => {
   }, [user]);
 
   const handleChangeProfilePic = async (event) => {
+    setisLoading(true);
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
@@ -53,11 +66,14 @@ const ProfilePage = () => {
         setProfilePic(res.data.profilePic);
       } catch (error) {
         console.error('Error updating profile picture:', error);
+      }finally{
+        setisLoading(false);
       }
     }
   };
 
   const handleChangeCoverImage = async (event) => {
+    setisLoading(true);
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
@@ -72,6 +88,8 @@ const ProfilePage = () => {
         setCoverImage(res.data.coverImage);
       } catch (error) {
         console.error('Error updating cover image:', error);
+      }finally{
+        setisLoading(false);
       }
     }
   };
@@ -164,6 +182,10 @@ const ProfilePage = () => {
       </p>
     )
   );
+
+  if(isLoading){
+    return renderLoader();
+  }
 
   return (
     <div className="relative pb-8 text-white min-h-screen bg-gradient-to-b from-gray-800 to-black">
