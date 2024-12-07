@@ -16,10 +16,10 @@ class PeerService {
   
     async getAnswer(offer) {
       if (this.peer) {
-        console.log("offer : " , offer);
+        
         await this.peer.setRemoteDescription(offer);
         const ans = await this.peer.createAnswer();
-        console.log("ans : " , ans);
+        
         await this.peer.setLocalDescription(new RTCSessionDescription(ans));
         return ans;
       }

@@ -125,7 +125,7 @@ const Search = () => {
                         onClick={() => handleRemoveConnection(resultUser._id)}
                         className="mt-2 px-4 py-2 bg-red-600 rounded-lg"
                       >
-                        Remove Connection
+                        { loading ? <FaSpinner className="animate-spin" /> : 'Remove Connection' }
                       </button>
                     ) : isRequested(resultUser?._id) ? (
                       <div className="mt-2 px-4 py-2 bg-yellow-600 rounded-lg">
@@ -136,7 +136,7 @@ const Search = () => {
                         onClick={() => handleAddConnection(resultUser?._id)}
                         className="mt-2 px-4 py-2 bg-green-600 rounded-lg"
                       >
-                        Add Connection
+                        {loading ? <FaSpinner className="animate-spin" /> : "Add Connection"}
                       </button>
                     )}
                   </div>

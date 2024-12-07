@@ -6,7 +6,7 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 const createComment = asyncHandler(async (req, res) => {
     const { author, post, content } = req.body;
-    console.log("res.body: ", req.body);
+    
 
     if (!author || !post || !content) {
         throw new ApiError(400, "All fields are required");

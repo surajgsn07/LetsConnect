@@ -31,11 +31,10 @@ const VerifyOtp = () => {
             const response = await axios.post('https://letsconnect-6jnn.onrender.com/users/verifyOtp', { email, otp });
             if(response.data){
                 setSuccess('OTP verified successfully!');
-                console.log("response : " , response)
+                
                 setError('');
-                console.log({ "res.data.data" :  response.data.data})
-                localStorage.setItem("accessToken" , response?.data?.data?.accessToken);
-                localStorage.setItem("refreshToken" , response?.data?.data?.refreshToken);
+                
+                
                 toast.success('OTP verified successfully!');
                 setCookie('accessToken', response?.data?.data?.accessToken, 7);
                 setCookie('refreshToken', response?.data?.data?.refreshToken, 7);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/authSlice';
+import { removeCookie } from '../axiosConfig/cookieFunc';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,8 +12,8 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        removeCookie('accessToken');
+        removeCookie('refreshToken');
         dispatch(logout());
         navigate('/')
         // console.log(")

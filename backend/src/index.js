@@ -9,6 +9,7 @@ const server = http.createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
     origin: "https://letsconnect-ui.netlify.app",
+    // origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -119,7 +120,7 @@ io.on("connection", (socket) => {
 // Connect to the database and start the server
 connectDB()
   .then(() => {
-    const PORT = process.env.PORT || 8000;
+    const PORT = process.env.PORT || 3000;
     server.listen(PORT, () => {
       console.log(`Server started at port ${PORT}`);
     });

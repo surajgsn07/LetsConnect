@@ -15,7 +15,7 @@ const PostList = () => {
     try {
       const res = await axiosInstance('/posts');
       if (res.data) {
-        console.log('res : ', res);
+        
         setPosts(res.data.data);
       }
     } catch (error) {
@@ -34,7 +34,7 @@ const PostList = () => {
   }, [reloadS]);
 
   return (
-    <div className="w-full min-h-screen flex flex-col gap-7">
+    <div className="w-full pt-10 min-h-screen flex flex-col gap-7">
       {isLoading ? (
         <div className="flex justify-center items-center h-40">
           <BiLoaderAlt className="text-4xl animate-spin text-gray-500" />

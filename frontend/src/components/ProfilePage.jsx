@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../axiosConfig/axiosConfig';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from './Loader';
+import { login } from '../store/authSlice';
 
 
 const renderLoader = () => (
@@ -26,6 +27,7 @@ const ProfilePage = () => {
   const [formData, setFormData] = useState({});
   const user = useSelector(state => state.auth.user);
   const [isLoading, setisLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -56,15 +58,17 @@ const ProfilePage = () => {
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append('profilePic', file);
-
+      formData.append('profilePicture', file);
+      console.log(formData)
+      
+      
       try {
-        const res = await axiosInstance.post(`/users/profile-picture`, formData, {
+        const res = await axiosInstance.post(`/users/profile-picture`, {profilePicture:file}, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-        setProfilePic(res.data.profilePic);
+        dispatch(login({user:res.data.data}))
       } catch (error) {
         console.error('Error updating profile picture:', error);
       }finally{
@@ -77,16 +81,17 @@ const ProfilePage = () => {
     setisLoading(true);
     const file = event.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append('coverImage', file);
+      
+
 
       try {
-        const res = await axiosInstance.post(`/users/cover-image`, formData, {
+        const res = await axiosInstance.post(`/users/cover-image`, {coverImage:file}, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-        setCoverImage(res.data.coverImage);
+        
+        dispatch(login({user:res.data.data}))
       } catch (error) {
         console.error('Error updating cover image:', error);
       }finally{
@@ -105,6 +110,8 @@ const ProfilePage = () => {
       endDate: new Date(item.endDate).toISOString().substring(0, 10)
     });
   };
+
+
 
   const handleAdd = (type) => {
     setIsAdding(true);
@@ -162,6 +169,17 @@ const ProfilePage = () => {
     }));
   };
 
+  useEffect(() => {
+    setProfilePic(user?.profilePicture);
+    setCoverImage(user?.coverImage);
+    setExperience(user?.experience);
+    setEducation(user?.education);
+    setconnections(user?.connections);
+    setfield(user?.field);
+    
+  }, [user])
+  
+
   const renderSection = (data = [], type) => (
     data.length > 0 ? (
       data.map((item) => (
@@ -215,6 +233,7 @@ const ProfilePage = () => {
         <input
           type="file"
           accept="image/*"
+          name='profilePic'
           onChange={handleChangeProfilePic}
           className="absolute hidden bottom-0 right-0 mb-2 mr-2 p-2 rounded-full bg-gray-700 hover:bg-gray-600 text-white focus:outline-none cursor-pointer"
           id="profilePicInput"

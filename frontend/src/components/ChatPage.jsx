@@ -15,14 +15,14 @@ const ChatPage = () => {
   const socket = useSocket();
   const user = useSelector(state=>state.auth.user);
   const userId = user?._id; // Assume the logged-in user has an ID of 1
-  console.log({messages})
+ 
   
 
   const fetchPersonDetails = async()=>{
     try {
       const res = await axiosInstance(`/users/getuserbyid/${personId}`);
       if(res.data){
-        console.log("res.data : " , res.data.data);
+        
         setuserInfo(res.data.data);
       }
     } catch (error) {
@@ -36,7 +36,7 @@ const ChatPage = () => {
       const res = await axiosInstance(`/messages/conversation/${personId}`);
 
       if(res.data){
-        console.log("messges : " ,res.data.data)
+        
         setMessages(res?.data?.data)
       }
     } catch (error) {
@@ -61,7 +61,7 @@ const ChatPage = () => {
   useEffect(() => {
     if (socket) {
       socket.on('private message', ({senderId, recipientId, message, name, fileUrl }) => {
-        console.log("message : " , message)
+        
         const msg = { sender: senderId, receiver: userId, content: message }
         setMessages((prevMessages) => [...prevMessages, msg]);
       });

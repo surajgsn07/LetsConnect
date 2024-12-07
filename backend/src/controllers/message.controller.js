@@ -140,8 +140,7 @@ const getUsersWithLastMessage = asyncHandler(async (req, res) => {
             };
         }));
 
-        console.log("userid : " , userId);
-        console.log("userdetails : " , usersWithDetails[0].user)
+        
 
         res.status(200).json(new ApiResponse(200, usersWithDetails, "Users with last messages retrieved successfully"));
     } catch (error) {

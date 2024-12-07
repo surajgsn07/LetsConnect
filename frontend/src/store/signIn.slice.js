@@ -10,7 +10,7 @@ export const emailSlice = createSlice({
     reducers: {
         addEmail:(state , action)=>{
             const {email} = action.payload;
-            console.log("email : " , email)
+            
             state.email = email
         }
     },

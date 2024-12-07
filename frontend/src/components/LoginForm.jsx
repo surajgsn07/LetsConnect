@@ -35,10 +35,8 @@ const LoginForm = () => {
             const response = await axios.post('https://letsconnect-6jnn.onrender.com/users/login', formData, {
                 withCredentials: true  // Ensure credentials are sent with the request
             });
-            console.log('Login successful:', response?.data);
-            console.log("res.data.data" , response.data.data)
-            localStorage.setItem("accessToken" , response?.data?.data?.accessToken);
-            localStorage.setItem("refreshToken" , response?.data?.data?.refreshToken);
+            
+            
             dispatch(login({user:response.data.data.user}))
             
             

@@ -69,13 +69,12 @@ const SignupForm = () => {
             const response = await axios.post('https://letsconnect-6jnn.onrender.com/users/initiateRegister', formData , {
                 withCredentials: true  // Ensure credentials are sent with the request
             });
-            console.log('Signup successful:', response.data);
+            
             if (response.data.success) {
                 const email = formData.email;
                 const obj = { email };
                 dispatch(addEmail(obj));
-                localStorage.setItem("accessToken" , response?.data?.data?.accessToken);
-                localStorage.setItem("refreshToken" , response?.data?.data?.refreshToken);
+                
                 navigate("/verifyOtp");
             }
         } catch (err) {

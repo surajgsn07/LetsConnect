@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import { getCookie } from "./axiosConfig/cookieFunc";
 
 function App() {
   const socket = useSocket();
@@ -24,13 +25,13 @@ function App() {
 
   // Fetch the user's information if an access token is present
   const fetchUser = async () => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = getCookie("accessToken");
     if (accessToken) {
       try {
         const res = await axiosInstance("/users/getuser");
         if (res.data) {
           dispatch(login({ user: res.data.data }));
-          console.log("User fetched with accessToken:", res.data.data);
+          
         }
       } catch (error) {
         console.error("Failed to fetch user:", error);

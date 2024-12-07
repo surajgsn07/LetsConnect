@@ -10,6 +10,8 @@ export const setCookie = (key, value, daysToExpire = 7) => {
 }
 
 export const getCookie = (key) => { 
+    
+
     return cookies.get(key);
 }
 

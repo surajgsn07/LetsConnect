@@ -38,7 +38,7 @@ const AddPost = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Post created successfully:', response.data);
+      
       if(response.data){
         toast.success("Posts uploaded successfully");
         navigate("/dashboard")

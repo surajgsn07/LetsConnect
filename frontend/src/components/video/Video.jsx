@@ -57,7 +57,7 @@ const Video = () => {
       
       const res = await axiosInstance.get(`/users/connections/${user._id}`);
       if (res.data) {
-        console.log("res.data : ",res.data);
+        
         setConnections(res.data)
       }
     } catch (error) {
@@ -73,7 +73,7 @@ const Video = () => {
 
   useEffect(() => {
     socket?.on('reject-vc' , ({ senderId , targetId })=>{
-      console.log(`rejected`)
+      
       setuserToCall(null);
       setisCalling(false);
       setroomId(null);
