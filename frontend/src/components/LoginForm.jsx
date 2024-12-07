@@ -39,6 +39,9 @@ const LoginForm = () => {
             localStorage.setItem("accessToken" , response?.data?.data?.accessToken);
             localStorage.setItem("refreshToken" , response?.data?.data?.refreshToken);
             dispatch(login({user:response.data.data.user}))
+            
+            setCookie('accessToken', response?.data?.data?.accessToken, 7);
+            setCookie('refreshToken', response?.data?.data?.refreshToken, 7);
             navigate("/dashboard");
             
             toast.success('Login successful!');
