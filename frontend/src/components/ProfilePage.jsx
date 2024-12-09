@@ -201,14 +201,15 @@ const ProfilePage = () => {
       </p>
     )
   );
+  
 
-  if(isLoading){
-    return Loader();
-  }
 
   return (
     <div className="relative pb-8 text-white min-h-screen bg-gradient-to-b from-gray-800 to-black">
       {/* Cover Image */}
+      {isLoading ? <Loader /> :
+      
+      <div>
       <div className="relative">
         <img className="w-full h-64 object-cover" src={coverImage || 'https://example.com/default-cover.jpg'} alt="Cover" />
         <input
@@ -283,6 +284,10 @@ const ProfilePage = () => {
           {renderSection(education, 'education')}
         </div>
       </div>
+      
+      </div>
+      }
+
 
       {/* Form for editing/adding experience or education */}
       {(isEditing || isAdding) && (

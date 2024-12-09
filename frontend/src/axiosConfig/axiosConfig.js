@@ -5,6 +5,7 @@ import { getCookie } from './cookieFunc';
 
 const axiosInstance = axios.create({
   baseURL: 'https://letsconnect-6jnn.onrender.com', 
+  // baseURL:"http://localhost:3000",
   withCredentials: true, 
 });
 

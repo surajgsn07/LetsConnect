@@ -9,6 +9,7 @@ const server = http.createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
     origin: "https://letsconnect-ui.netlify.app",
+
     // origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
