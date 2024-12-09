@@ -2,7 +2,7 @@ import React from 'react';
 
 const Modal = ({ isOpen, connections, onClose, onSelect }) => {
   if (!isOpen) return null;
-  console.log("connections" , connections)
+  
 
   return (
     <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex items-center justify-center">

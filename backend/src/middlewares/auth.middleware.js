@@ -8,7 +8,8 @@ export const verifyJwt = asyncHandler(async( req , res, next)=>{
         
         const token =  req.header("Authorization")?.replace("Bearer " , "") || req.body.token || req.body.headers?.Authorization?.replace("Bearer " , "") || req.cookies.accessToken ;
 
-        console.log({token});
+        
+        
         
         if(!token){
             throw new ApiError(401, "Unauthorized request");

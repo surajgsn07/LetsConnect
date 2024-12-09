@@ -14,7 +14,7 @@ const Search = () => {
   const user = useSelector(state => state.auth.user);
 
   const token = getCookie("accessToken");
-  console.log({token})
+  
   useEffect(() => {
     const fetchConnections = async () => {
       try {

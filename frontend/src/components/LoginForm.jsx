@@ -46,7 +46,7 @@ const LoginForm = () => {
             
             toast.success('Login successful!');
         } catch (err) {
-            console.error('Error during login:', err);
+            e.error('Error during login:', err);
             const errorMessage = err?.response?.data?.message || 'An error occurred during login. Please try again.';
             setError(errorMessage);
             toast.error(errorMessage);

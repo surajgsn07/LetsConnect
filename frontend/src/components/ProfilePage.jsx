@@ -59,7 +59,7 @@ const ProfilePage = () => {
     if (file) {
       const formData = new FormData();
       formData.append('profilePicture', file);
-      console.log(formData)
+      
       
       
       try {

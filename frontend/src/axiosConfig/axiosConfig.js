@@ -20,7 +20,7 @@ axiosRetry(axiosInstance, {
 axiosInstance.interceptors.request.use(config => {
   const cookie = new Cookie();
   const token = getCookie("accessToken");
-  console.log("token in config : " , token)
+  
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }

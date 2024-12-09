@@ -40,7 +40,7 @@ const VerifyOtp = () => {
                 setCookie('refreshToken', response?.data?.data?.refreshToken, 7);
 
                 dispatch(login({user:response.data.data.user}))
-                console.log('OTP verification successful:', response.data);
+                
                 navigate('/dashboard');
             }
         } catch (err) {

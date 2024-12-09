@@ -202,7 +202,6 @@ const getRefreshToken = asyncHandler(async (req, res) => {
 const updateProfilePicture = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const file = req.file;
-  console.log({ file });
 
   if (!file) {
     throw new ApiError(400, "No file uploaded");

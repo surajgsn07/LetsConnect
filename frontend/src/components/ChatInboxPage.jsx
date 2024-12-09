@@ -19,7 +19,7 @@ const ChatInboxPage = () => {
     try {
       const res = await axiosInstance.get('/messages/users-with-last-message');
       if (res.data) {
-        console.log('last : ', res.data);
+        
         setChats(res.data?.data);
       }
     } catch (error) {
@@ -33,7 +33,7 @@ const ChatInboxPage = () => {
     try {
       const res = await axiosInstance.get(`/users/connections/${user._id}`);
       if (res.data) {
-        console.log('res.data : ', res.data);
+        
         setConnections(res.data);
       }
     } catch (error) {
@@ -44,7 +44,7 @@ const ChatInboxPage = () => {
   };
 
   const handleSelectConnection = (id) => {
-    console.log('Selected connection ID:', id);
+    
     navigate(`/dashboard/chat/${id}`);
     setIsModalOpen(false);
   };
