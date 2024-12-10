@@ -83,7 +83,7 @@ function App() {
       // Handle incoming private messages and show toast notifications
       socket.on("private message", ({name, message}) => {
         if (!matchChat) {
-          toast.info(`${name}: ${message}`);
+          toast.info(`Message Recieved : ${message}`);
         }
       });
 
