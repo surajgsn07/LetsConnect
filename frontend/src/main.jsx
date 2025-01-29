@@ -23,6 +23,8 @@ import ChatInboxPage from './components/ChatInboxPage.jsx';
 import { SocketProvider } from './SocketWrapper.jsx';
 import Video from './components/video/Video.jsx';
 import VideoCallComponent from './components/video/VideoCallComponent.jsx';
+import { PeerProvider } from './components/wrappers/peer.jsx';
+import VideoCall from './components/video/VideoCall.jsx';
 
 
 const router = createBrowserRouter([
@@ -79,6 +81,9 @@ const router = createBrowserRouter([
       },{
         path:'/vc/:roomID',
         element:<VideoCallComponent/>
+      },{
+        path:'/vc/videocall/:otherPeerId/:role',
+        element:<VideoCall/>
       }
     ]
   }
@@ -88,9 +93,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
   // <React.StrictMode>
     <Provider  store={store}>
-    <SocketProvider>
-      <RouterProvider router={router} />
-    </SocketProvider>
+      <PeerProvider>
+        <SocketProvider>
+          <RouterProvider router={router} />
+        </SocketProvider>
+    </PeerProvider>
     </Provider>
     
   // </React.StrictMode>,

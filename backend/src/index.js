@@ -8,9 +8,9 @@ import { isConnection, sendMessage } from "./sockerUtilsfile.js";
 const server = http.createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: "https://letsconnect-ui.netlify.app",
+    // origin: "https://letsconnect-ui.netlify.app",
 
-    // origin: "http://localhost:5173",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -24,16 +24,26 @@ app.use((req, res, next) => {
 
 // Map to store user MongoDB IDs and their corresponding socket IDs
 const socketMap = new Map();
+const peerIdMap = new Map();
 
 io.on("connection", (socket) => {
   console.log("A user connected");
 
+
   // Store user's MongoDB ID and socket ID
-  socket.on("register", (userId) => {
+  socket.on("register-socket", (userId) => {
     socketMap.set(userId, socket.id);
-    console.log(`User registered: ${userId} with socket ID: ${socket.id}`);
+    console.log('User registered: ' + userId);
+    
   });
 
+  // Store user's MongoDB ID and socket ID
+  socket.on("register-peer", (peerId , userId) => {
+    peerIdMap.set(userId, peerId);
+    console.log('peer registered: ' + userId + " " + peerId);
+    
+  });
+  
   socket.on("disconnect", () => {
     // Remove user's MongoDB ID and socket ID from the map
     for (const [userId, socketId] of socketMap.entries()) {
@@ -94,15 +104,23 @@ io.on("connection", (socket) => {
     }
   );
 
+  
 
-  socket.on("make-vc" , ({senderId,targetId , roomId})=>{
+
+  socket.on("make-vc" , ({senderId,targetId , roomId  })=>{
     const socketid = socketMap.get(targetId)
-    io.to(socketid).emit("make-vc" , {roomId , senderId})
+    const otherPeerId = peerIdMap.get(senderId)
+
+    console.log({peerIdMap})
+    
+
+    console.log("make vc to "  , otherPeerId)
+    io.to(socketid).emit("make-vc" , {roomId , senderId , otherPeerId})
   })
 
-  socket.on("accept-vc" , ({senderId, targetId , roomId})=>{
+  socket.on("accept-vc" , ({senderId, targetId , roomId , otherPeerId})=>{
     const socketid = socketMap.get(targetId)
-    io.to(socketid).emit("accept-vc" , {senderId,targetId,roomId})
+    io.to(socketid).emit("accept-vc" , {senderId,targetId,roomId , otherPeerId})
   })
 
   socket.on("reject-vc" , ({senderId,targetId })=>{

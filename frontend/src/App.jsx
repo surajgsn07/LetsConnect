@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { getCookie } from "./axiosConfig/cookieFunc";
+import { usePeerContext } from "./components/wrappers/peer";
 
 function App() {
   const socket = useSocket();
@@ -18,6 +19,11 @@ function App() {
   const matchChat = useMatch("/dashboard/chat/:personId");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [otherPeerId, setotherpeerId] = useState(null)
+
+  const {setAnotherPersoonId} = usePeerContext()
+
+  
 
   const [isReceivingCall, setIsReceivingCall] = useState(false);
   const [callDetails, setCallDetails] = useState(null);
@@ -61,13 +67,15 @@ function App() {
   };
 
   // Accept the incoming call and navigate to the video call room
-  const acceptCall = () => {
+  const acceptCall = (otherPeerId) => {
     if (socket && user && callDetails && roomId) {
-      socket.emit("accept-vc", { senderId: user._id, targetId: callDetails._id, roomId });
+      socket.emit("accept-vc", { senderId: user._id, targetId: callDetails._id, roomId , otherPeerId });
       setIsReceivingCall(false);
       setCallDetails(null);
+      setAnotherPersoonId(otherPeerId)
+      
 
-      navigate(`/vc/${roomId}`);
+      navigate(`/vc/videocall/${otherPeerId}/receiver`);
     }
   };
 
@@ -88,10 +96,12 @@ function App() {
       });
 
       // Handle incoming video call request
-      socket.on("make-vc", async ({ senderId, targetId, roomId }) => {
+      socket.on("make-vc", async ({ senderId, targetId, roomId , otherPeerId }) => {
+        console.log("make - vc in app.jsx : " , otherPeerId)
         await fetchCallUserDetails(senderId);
         setIsReceivingCall(true);
         setRoomId(roomId);
+        setotherpeerId(otherPeerId)
       });
 
       // Handle call rejection
@@ -133,6 +143,7 @@ function App() {
           user={callDetails}
           cancelCall={cancelCall}
           acceptCall={acceptCall}
+          otherPeerId={otherPeerId}
         />
       )}
     </div>
@@ -140,7 +151,7 @@ function App() {
 }
 
 // Modal component to display incoming call details
-const CallingModal = ({ user, cancelCall, acceptCall }) => {
+const CallingModal = ({ user, cancelCall, acceptCall , otherPeerId }) => {
   return (
     <div className="fixed z-50 inset-0 bg-black bg-opacity-70 flex items-center justify-center">
       <div className="bg-gray-900 text-white p-6 rounded-lg w-11/12 sm:w-3/4 max-w-lg overflow-y-auto max-h-full shadow-lg">
@@ -161,7 +172,7 @@ const CallingModal = ({ user, cancelCall, acceptCall }) => {
         </div>
         <div className="flex justify-center gap-8 mt-4">
           <button
-            onClick={acceptCall}
+            onClick={()=>acceptCall(otherPeerId)}
             className="bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg shadow-md transition duration-200 transform hover:scale-105"
           >
             Accept

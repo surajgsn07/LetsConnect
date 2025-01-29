@@ -6,8 +6,7 @@ import axiosInstance from '../../axiosConfig/axiosConfig';
 import { useSocket } from '../../SocketWrapper';
 import { v4 as uuidv4 } from 'uuid'; // Import v4 version
 import { useNavigate } from 'react-router-dom';
-// import { FaSpinner } from 'react-icons/fa'; // Import the loader icon
-
+// import { usePeer } from '../wrappers/peer';
 
 const demoConnections = [
   {
@@ -39,6 +38,7 @@ const Video = () => {
   const [roomId, setroomId] = useState(null);
   const navigate = useNavigate();
   const [loading, setloading] = useState(false)
+  
   
 
   const socket = useSocket();
@@ -80,8 +80,11 @@ const Video = () => {
     })
 
 
-    socket?.on("accept-vc" , ({roomId})=>{
-      navigate(`/vc/${roomId}`)
+    socket?.on("accept-vc" , ({roomId , otherPeerId})=>{
+      setisCalling(false);
+      
+
+      navigate(`/vc/videocall/${otherPeerId}/sender`)
     })
   }, [socket])
   
@@ -106,7 +109,7 @@ const Video = () => {
               title="Start Video Call"
               onClick={() => {
                 const roomId = uuidv4();
-                socket.emit("make-vc", {senderId:user?._id, targetId: connection._id  , roomId})
+                socket.emit("make-vc", {senderId:user?._id, targetId: connection._id  , roomId });
                 setisCalling(true)
                 setuserToCall(connection)
                 setroomId(roomId)
