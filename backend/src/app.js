@@ -4,8 +4,8 @@ import cors from 'cors'
 const app = express()
 
 app.use(cors({
-    // origin: 'https://letsconnect-ui.netlify.app',
-    origin:"http://localhost:5173",
+    origin: 'https://letsconnect-ui.netlify.app',
+    // origin:"http://localhost:5173",
     credentials:true
 }))
 

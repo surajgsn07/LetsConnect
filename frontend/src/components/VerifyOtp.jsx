@@ -28,7 +28,7 @@ const VerifyOtp = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:3000/users/verifyOtp', { email, otp });
+            const response = await axios.post('https://letsconnect-6jnn.onrender.com/users/verifyOtp', { email, otp });
             if(response.data){
                 setSuccess('OTP verified successfully!');
                 

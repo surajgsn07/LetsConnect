@@ -12,7 +12,7 @@ export const SocketProvider = ({ children }) => {
   const {peerId} = usePeerContext();
   
   useEffect(() => {
-    const socketInstance = io('http://localhost:3000'); // Replace with your socket server URL
+    const socketInstance = io('https://letsconnect-6jnn.onrender.com'); // Replace with your socket server URL
     setSocket(socketInstance);
     
 
